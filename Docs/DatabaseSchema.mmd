@@ -1,0 +1,39 @@
+erDiagram
+    User ||--o{ Comment : "authors"
+    Comment ||--o{ CommentAnchor : "has anchors"
+    CommentAnchor }o--|| Commit : "targets commit"
+    Commit }o--|| Repository : "belongs to"
+
+    User {
+        int id PK
+        string username
+        string password_hash
+        datetime created_at
+    }
+
+    Comment {
+        int id PK
+        int user_id FK
+        string content
+        datetime created_at
+    }
+
+    CommentAnchor {
+        int comment_id FK
+        int commit_id FK
+    }
+
+    Commit {
+        int id PK
+        int repo_id FK
+        string sha
+        string message
+        string author
+        datetime committed_at
+    }
+
+    Repository {
+        int id PK
+        string github_id
+        string repo_name
+    }
