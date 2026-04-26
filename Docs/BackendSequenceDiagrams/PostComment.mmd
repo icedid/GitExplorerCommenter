@@ -6,9 +6,11 @@ sequenceDiagram
         participant DB
     end
 
-    Client->>CommentService: POST /comments
+    Client->>CommentService: POST /comments {content, commit_ids: [...]}
     CommentService->>CommentService: Validate session cookie
-    CommentService->>DB: INSERT comment + anchor
+    CommentService->>DB: INSERT comment
+    DB-->>CommentService: comment_id
+    CommentService->>DB: INSERT anchors for each commit_id
     DB-->>CommentService: OK
     CommentService-->>Client: 201 Created
-    Client->>Client: Refresh comment feed
+    
