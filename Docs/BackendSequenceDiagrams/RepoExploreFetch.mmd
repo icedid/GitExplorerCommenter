@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant Client
+    participant Backend
+    participant DB
+
+    Client->>Backend: GET /repos/:id/commits
+    Backend->>DB: Query commits
+    DB-->>Backend: Commit rows
+    Backend-->>Client: 200 Commit timeline
+
+    Client->>Backend: GET /comments?repoId=:id
+    Backend->>DB: Query comments + anchors
+    DB-->>Backend: Comment rows
+    Backend-->>Client: 200 Comment feed
+
+    Client->>Client: Merge + render map with overlays

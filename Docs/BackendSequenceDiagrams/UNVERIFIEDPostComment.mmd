@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant Client
+
+    box Backend
+        participant CommentService
+        participant DB
+    end
+
+    Client->>CommentService: POST /comments
+    CommentService->>CommentService: Validate session cookie
+    CommentService->>DB: INSERT comment + anchor
+    DB-->>CommentService: OK
+    CommentService-->>Client: 201 Created
+    Client->>Client: Refresh comment feed
