@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant Client
+
+    box Backend
+        participant CommentService
+        participant DB
+    end
+
+    Client->>CommentService: POST /comments {content, commit_ids: [...]}
+    CommentService->>CommentService: Validate session cookie
+    CommentService->>DB: INSERT comment
+    DB-->>CommentService: comment_id
+    CommentService->>DB: INSERT anchors for each commit_id
+    DB-->>CommentService: OK
+    CommentService-->>Client: 201 Created
+    
