@@ -1,0 +1,27 @@
+sequenceDiagram
+    participant Client
+
+    box Backend
+        participant AuthService
+        participant DB
+    end
+
+    rect rgba(0,0,0,0)
+        note over Client,DB: Register
+        Client->>AuthService: POST /auth/register (HTTPS) {username, password}
+        AuthService->>DB: Check username availability
+        DB-->>AuthService: OK
+        AuthService->>AuthService: bcrypt.hash(password)
+        AuthService->>DB: INSERT user {username, hash}
+        DB-->>AuthService: OK
+        AuthService-->>Client: 201 + session cookie
+    end
+
+    rect rgba(0,0,0,0)
+        note over Client,DB: Login
+        Client->>AuthService: POST /auth/login (HTTPS) {username, password}
+        AuthService->>DB: Lookup user by username
+        DB-->>AuthService: User row {hash}
+        AuthService->>AuthService: bcrypt.verify(password, hash)
+        AuthService-->>Client: 200 + session cookie
+    end
