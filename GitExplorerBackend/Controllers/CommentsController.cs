@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
+namespace Controllers;
+
 [ApiController]
 [Route("comments")]
 

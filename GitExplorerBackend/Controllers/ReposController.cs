@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
+namespace Controllers;
+
 [ApiController]
 [Route("auth")]
 public class ReposController : ControllerBase
