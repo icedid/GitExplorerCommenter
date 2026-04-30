@@ -1,5 +1,6 @@
 using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
+using Entities;
 
 public class AppDbContext : DbContext
 {
