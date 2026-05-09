@@ -1,0 +1,34 @@
+flowchart LR
+    subgraph client["Client (Browser)"]
+        landingPage["Landing Page - Entry point, repo selection"]
+        authUI["Auth UI - User authentication & session entry"]
+        repoUI["Repo UI - Primary repo view"]
+        commentBox["Comment Box - Comment submission"]
+    end
+
+    subgraph app["Backend App"]
+        sessionMgr["Session Manager - Maintains auth state across requests"]
+        authService["Auth Service - Verifies identity & creates accounts"]
+        repoService["Repo Service - Serves cached repo & commit data"]
+        commentService["Comment Service - Persists & retrieves comments"]
+    end
+
+    subgraph sidecarBoundary["Sidecar Script"]
+        sidecar["Cache Sync - Polls GitHub & refreshes repo cache"]
+    end
+
+    db[("Database")]
+    github["GitHub API - External"]
+
+    landingPage --> authUI
+    authUI --> sessionMgr
+    sessionMgr --> authService
+    authUI --> repoUI
+    repoUI --> repoService
+    repoUI --> commentService
+    commentBox --> commentService
+    authService --> db
+    repoService --> db
+    commentService --> db
+    sidecar --> github
+    sidecar --> db

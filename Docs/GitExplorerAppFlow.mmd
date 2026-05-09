@@ -1,0 +1,31 @@
+flowchart TB
+    A@{ label: "Landing Page: 'My Projects' Menu", shape: rect } --> B["User Selects a Repo"]
+    
+    B --> C{"Identity Choice"}
+    
+    %% Login Path
+    C -- Login --> D["Enter Credentials UI"]
+    D --> E{"Validation Process"}
+    E -- Fail --> D
+    E -- Success --> F["Set Session: Authenticated User"]
+    
+    %% Create Account Path
+    C -- Register --> n1["Create Account UI", shape: rect]
+    n1 --> n2{"Process Registration"}
+    n2 -- "Username Taken" --> n1
+    n2 -- "Success" --> F
+    
+    %% Guest Path
+    C -- Continue as Guest --> G["Set Session: Unauthenticated (null)"]
+    
+    F --> H["Main Repo UI: Timeline & Files"]
+    G --> H
+    
+    H --> I["Update Comment Feed"]
+    
+    H --> J{"Check Auth Status"}
+    J -- "Unauthenticated" --> K@{ label: "UI: Display 'Login to Post' Message", shape: rect }
+    J -- "Authenticated" --> L["UI: Enable Post Comment Box"]
+    
+    L --> M["Process New Comment"]
+    M --> I
