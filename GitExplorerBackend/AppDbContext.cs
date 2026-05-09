@@ -11,4 +11,10 @@ public class AppDbContext : DbContext
     public DbSet<Commit> Commits { get; set; }
     public DbSet<Repository> Repositories { get; set; }
     public DbSet<CommentAnchor> CommentAnchors { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CommentAnchor>()
+            .HasKey(ca => new { ca.CommentId, ca.CommitId });
+    }
 }
