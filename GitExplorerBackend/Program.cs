@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 
 // --- Database ---
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // --- Session ---
 builder.Services.AddDistributedMemoryCache();
